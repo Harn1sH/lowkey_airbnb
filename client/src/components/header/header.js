@@ -5,7 +5,7 @@ import UserWidget from "../user widget/UserWidget";
 
 function Header() {
   return (
-    <div className="p-4 flex justify-between">
+    <div className="py-4  flex justify-between">
       <div className={"flex items-center"}>
         <Logo />
         <span className={"font-bold text-xl"}>airBnB</span>

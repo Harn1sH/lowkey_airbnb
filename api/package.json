@@ -1,0 +1,26 @@
+{
+  "name": "lowkey_bnb",
+  "version": "1.0.0",
+  "description": "a clone of air bnb site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harn1sH/lowkey_airbnb.git"
+  },
+  "author": "Harnish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harn1sH/lowkey_airbnb/issues"
+  },
+  "homepage": "https://github.com/Harn1sH/lowkey_airbnb#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
