@@ -1,21 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await fetch("http://localhost:5000/register", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password }),
-      headers: { "content-type": "application/json" },
-    });
-    const jsonData = await data.json();
-    console.log(jsonData);
+    try {
+      const data = await fetch("http://localhost:5001/register", {
+        method: "POST",
+        body: JSON.stringify({ name, email, password }),
+        headers: { "content-type": "application/json" },
+      });
+      setRedirect(true);
+      alert("Registered successfully!! Please login");
+    } catch (e) {
+      alert("User already exists. Please login");
+    }
   };
+
+  if (redirect) {
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <div className="mt-4 flex justify-center items-center grow">
