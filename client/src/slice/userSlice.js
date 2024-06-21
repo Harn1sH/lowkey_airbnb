@@ -13,6 +13,11 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
     },
+    removeUser: (state, action) => {
+      state.id = null;
+      state.name = null;
+      state.email = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
@@ -27,4 +32,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { addUser } = userSlice.actions;
+export const { addUser, removeUser } = userSlice.actions;

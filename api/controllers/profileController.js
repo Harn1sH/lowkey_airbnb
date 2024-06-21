@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+
 exports.index = async (req, res) => {
   if (req.cookies) {
     const { token } = req.cookies;
@@ -10,5 +11,12 @@ exports.index = async (req, res) => {
     }
   } else {
     res.json(null);
+  }
+};
+
+exports.logout = (req, res) => {
+  console.log("hits");
+  if (req.cookies.token) {
+    res.clearCookie("token").json({ status: "ok" });
   }
 };

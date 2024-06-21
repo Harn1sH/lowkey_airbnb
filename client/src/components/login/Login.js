@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../slice/userSlice";
 
 function Login() {
@@ -8,7 +8,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
+  const userName = useSelector((state) => state.user.name);
 
+  useEffect(() => {
+    if (userName) {
+      setRedirect(true);
+    }
+  }, [userName]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

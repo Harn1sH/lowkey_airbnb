@@ -1,16 +1,16 @@
 import React from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Profile from "./Profile";
 
 function Account() {
   const user = useSelector((store) => store.user.name);
-  const { subpage } = useParams();
+  let { subpage } = useParams();
   console.log(subpage);
   if (!user) {
     return <Navigate to={"/login"} />;
   }
-
-  const styling = (page = undefined) => {
+  const styling = (page) => {
     let result = "py-2 px-6";
     if (page === subpage) {
       result =
@@ -32,6 +32,7 @@ function Account() {
           My Accomodations
         </Link>
       </nav>
+      {subpage === undefined && <Profile />}
     </div>
   );
 }
