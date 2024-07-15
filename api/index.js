@@ -14,7 +14,7 @@ const photosMiddleware = multer({ dest: "uploads/" });
 const placeRouter = require("./routes/placeRouter");
 
 app.use(
-  cors({ credentials: true, origin: "https://lowkey-airbnb.onrender.com/" }),
+  cors({ credentials: true, origin: "https://lowkey-airbnb.onrender.com" }),
 );
 app.use(express.json());
 app.use(cookieParser());
