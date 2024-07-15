@@ -21,6 +21,7 @@ exports.index = async (req, res) => {
           res
             .cookie("token", token, {
               sameSite: "none",
+              secure: false,
             })
             .json({ name: dbUser.name, email: email, id: dbUser._id });
         },
