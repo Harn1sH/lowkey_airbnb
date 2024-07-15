@@ -8,9 +8,12 @@ function Accommodation(props) {
   const [places, setPlaces] = useState([]);
 
   const getData = async () => {
-    const data = await fetch("http://localhost:5001/place/getPlace", {
-      credentials: "include",
-    });
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/getPlace",
+      {
+        credentials: "include",
+      },
+    );
     const finData = await data.json();
     setPlaces(finData);
   };

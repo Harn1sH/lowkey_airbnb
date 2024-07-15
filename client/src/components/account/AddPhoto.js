@@ -28,7 +28,7 @@ export default function AddPhoto(props) {
           props.photoName.map((img) => (
             <div key={img}>
               <img
-                src={"http://localhost:5001/" + img}
+                src={"https://lowkey-airbnb-service.onrender.com/" + img}
                 className={"rounded-xl h-20"}
                 alt={"err"}
               />

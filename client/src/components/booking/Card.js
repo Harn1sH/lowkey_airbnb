@@ -11,7 +11,9 @@ function Card({ booking }) {
       >
         <img
           className={"h-24 rounded-2xl"}
-          src={"http://localhost:5001/" + booking?.photos?.[0]}
+          src={
+            "https://lowkey-airbnb-service.onrender.com/" + booking?.photos?.[0]
+          }
           alt="photo"
         />
         <div className={"flex flex-col gap-y-3"}>

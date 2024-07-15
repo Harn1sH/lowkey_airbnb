@@ -13,7 +13,9 @@ const multer = require("multer");
 const photosMiddleware = multer({ dest: "uploads/" });
 const placeRouter = require("./routes/placeRouter");
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({ credentials: true, origin: "https://lowkey-airbnb.onrender.com/" }),
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -32,6 +34,6 @@ app.use("/profile", profileRouter);
 app.use("/place", placeRouter);
 app.use("/booking", bookingRouter);
 
-app.listen(5001, () => {
+app.listen(process.env.PORT || 5001, () => {
   console.log("listening on port 5001,");
 });

@@ -8,10 +8,13 @@ function Profile() {
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    const data = await fetch("http://localhost:5001/profile/logout", {
-      method: "GET",
-      credentials: "include",
-    });
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/profile/logout",
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
     console.log(await data.json());
     dispatch(removeUser());
   };

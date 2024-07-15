@@ -11,7 +11,7 @@ function Places({ place }) {
         }
       >
         <img
-          src={`http://localhost:5001/${place.photos[0]}`}
+          src={`https://lowkey-airbnb-service.onrender.com/${place.photos[0]}`}
           className={"h-24 rounded-xl  "}
           alt="photo"
         />

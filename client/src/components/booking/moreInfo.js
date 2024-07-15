@@ -8,7 +8,9 @@ function MoreInfo() {
   const [bookingData, setBookingData] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5001/place/" + id);
+    const response = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/place/" + id,
+    );
     const data = await response.json();
     setData(data);
     console.log(data);
@@ -16,10 +18,13 @@ function MoreInfo() {
   };
 
   const fetchBookingData = async () => {
-    const response = await fetch("http://localhost:5001/booking/" + id, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/booking/" + id,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
     const data = await response.json();
     setBookingData(data);
     console.log(data);
@@ -47,7 +52,7 @@ function MoreInfo() {
         >
           {data?.photos?.map((photo) => (
             <img
-              src={"http://localhost:5001/" + photo}
+              src={"https://lowkey-airbnb-service.onrender.com/" + photo}
               key={photo}
               className={"w-5/12 rounded-2xl"}
             />
@@ -70,7 +75,9 @@ function MoreInfo() {
           <img
             onClick={() => setShowMore(true)}
             className={"h-full w-full object-cover"}
-            src={"http://localhost:5001/" + data?.photos?.[0]}
+            src={
+              "https://lowkey-airbnb-service.onrender.com/" + data?.photos?.[0]
+            }
             alt=""
           />
         </div>
@@ -78,7 +85,10 @@ function MoreInfo() {
           <div>
             <img
               onClick={() => setShowMore(true)}
-              src={"http://localhost:5001/" + data?.photos?.[1]}
+              src={
+                "https://lowkey-airbnb-service.onrender.com/" +
+                data?.photos?.[1]
+              }
               alt=""
               className={"w-full"}
             />
@@ -88,7 +98,10 @@ function MoreInfo() {
               <img
                 onClick={() => setShowMore(true)}
                 className={"w-full"}
-                src={"http://localhost:5001/" + data?.photos?.[2]}
+                src={
+                  "https://lowkey-airbnb-service.onrender.com/" +
+                  data?.photos?.[2]
+                }
                 alt="image pending"
               />
             )}

@@ -10,11 +10,14 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await fetch("http://localhost:5001/register", {
-        method: "POST",
-        body: JSON.stringify({ name, email, password }),
-        headers: { "content-type": "application/json" },
-      });
+      const data = await fetch(
+        "https://lowkey-airbnb-service.onrender.com/register",
+        {
+          method: "POST",
+          body: JSON.stringify({ name, email, password }),
+          headers: { "content-type": "application/json" },
+        },
+      );
       setRedirect(true);
       alert("Registered successfully!! Please login");
     } catch (e) {

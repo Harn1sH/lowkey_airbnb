@@ -8,7 +8,9 @@ function Home() {
   const [places, setPlaces] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5001/place/getAllPlace");
+    const response = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/place/getAllPlace",
+    );
     const data = await response.json();
     setPlaces(data);
   };

@@ -5,9 +5,12 @@ function Booking() {
   const [bookings, setBookings] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5001/booking/getBookings", {
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/booking/getBookings",
+      {
+        credentials: "include",
+      },
+    );
     const data = await response.json();
     setBookings(data);
   };
@@ -30,7 +33,10 @@ function Booking() {
         >
           <img
             className={"h-24 rounded-2xl"}
-            src={"http://localhost:5001/" + booking?.photos?.[0]}
+            src={
+              "https://lowkey-airbnb-service.onrender.com/" +
+              booking?.photos?.[0]
+            }
             alt="photo"
           />
           <div className={"flex flex-col gap-y-3"}>

@@ -18,12 +18,15 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await fetch("http://localhost:5001/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "content-type": "application/json" },
-        credentials: "include",
-      });
+      const data = await fetch(
+        "https://lowkey-airbnb-service.onrender.com/login",
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: { "content-type": "application/json" },
+          credentials: "include",
+        },
+      );
       const response = await data.json();
       if (!data.ok) {
         console.log(response);

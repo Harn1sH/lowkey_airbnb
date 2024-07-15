@@ -10,7 +10,10 @@ export default function Card(props) {
         }
       >
         <img
-          src={"http://localhost:5001/" + props.place.photos[0]}
+          src={
+            "https://lowkey-airbnb-service.onrender.com/" +
+            props.place.photos[0]
+          }
           className={"rounded-2xl"}
           alt=""
         />

@@ -25,7 +25,9 @@ function NewPlace() {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch("http://localhost:5001/place/" + id);
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/place/" + id,
+    );
     const response = await data.json();
     setTitle(response.title);
     setAddress(response.address);
@@ -64,12 +66,15 @@ function NewPlace() {
       maxMembers,
       price,
     };
-    const data = await fetch("http://localhost:5001/place", {
-      method: "POST",
-      body: JSON.stringify(sendData),
-      headers: { "content-type": "application/json" },
-      credentials: "include",
-    });
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/place",
+      {
+        method: "POST",
+        body: JSON.stringify(sendData),
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+      },
+    );
 
     console.log(await data.json());
     setRedirect("abcd");
@@ -82,11 +87,14 @@ function NewPlace() {
     for (let i = 0; i < files.length; i++) {
       photos.append("photos", files[i]);
     }
-    const data = await fetch("http://localhost:5001/uploads/device", {
-      method: "POST",
-      body: photos,
-      credentials: "include",
-    });
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/uploads/device",
+      {
+        method: "POST",
+        body: photos,
+        credentials: "include",
+      },
+    );
     const fileName = await data.json();
     setPhotoName((prev) => [...prev, fileName]);
     setKey(Date.now());
@@ -94,14 +102,17 @@ function NewPlace() {
 
   const addPhotosByLink = async (e) => {
     e.preventDefault();
-    const data = await fetch("http://localhost:5001/uploads/", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/uploads/",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ link: photoLink }),
+        credentials: "include",
       },
-      body: JSON.stringify({ link: photoLink }),
-      credentials: "include",
-    });
+    );
     const fileName = await data.json();
     setPhotoName((prev) => [...prev, fileName]);
     setPhotoLink("");
@@ -123,12 +134,15 @@ function NewPlace() {
       maxMembers,
       price,
     };
-    const data = await fetch("http://localhost:5001/place", {
-      method: "PUT",
-      body: JSON.stringify(sendData),
-      headers: { "content-type": "application/json" },
-      credentials: "include",
-    });
+    const data = await fetch(
+      "https://lowkey-airbnb-service.onrender.com/place",
+      {
+        method: "PUT",
+        body: JSON.stringify(sendData),
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+      },
+    );
 
     console.log(await data.json());
     setRedirect("abcd");
