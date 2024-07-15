@@ -9,7 +9,7 @@ function Accommodation(props) {
 
   const getData = async () => {
     const data = await fetch(
-      "https://lowkey-airbnb-service.onrender.com/getPlace",
+      "https://lowkey-airbnb-service.onrender.com/place/getPlace",
       {
         credentials: "include",
       },
