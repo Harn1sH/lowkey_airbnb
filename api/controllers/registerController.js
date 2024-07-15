@@ -10,7 +10,7 @@ exports.index = async (req, res) => {
     const createdUser = await User.create({
       name,
       email,
-      password: bcrypt.compareSync(password, bcryptSalt),
+      password: bcrypt.hashSync(password, bcryptSalt),
     });
     res.json(createdUser);
   } else {

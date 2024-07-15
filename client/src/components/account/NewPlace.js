@@ -1,105 +1,261 @@
-import React from "react";
-import Upload from "../../assets/icons/upload";
-import Wifi from "../../assets/icons/Wifi";
-import Truck from "../../assets/icons/Truck";
-import Tv from "../../assets/icons/Tv";
-import Pets from "../../assets/icons/Pets";
-import Search from "../../assets/icons/search";
+import React, { useEffect, useState } from "react";
+import Perks from "./Perks";
+import AddPhoto from "./AddPhoto";
+import { Navigate, useParams } from "react-router-dom";
+import Nav from "./Nav";
 
 function NewPlace() {
-  return (
-    <form className={"w-full flex space-y-8 flex-col my-4"}>
-      <div className={"py-2 px-2 w-full gap-y-4 flex flex-col "}>
-        <span className={"font-bold text-xl"}>Title</span>
-        <p className={"text-gray-500"}>Make the title catchyy</p>
-        <input
-          type="text"
-          className={"py-2 px-2 rounded-full border"}
-          placeholder={"Enter name here"}
-        />
-      </div>
-      <div className={"py-2 px-2 w-full flex flex-col gap-y-4"}>
-        <span className={"font-bold text-xl"}>Address</span>
-        <p className={"text-gray-500"}>Address to the place</p>
-        <input
-          type="text"
-          className={"py-2 px-2 rounded-full border"}
-          placeholder={"Enter address here"}
-        />
-      </div>
-      <div className={"flex flex-col gap-y-4"}>
-        <span className={"font-bold text-xl"}>Photos</span>
-        <p className={"text-gray-500"}>More definitely means better </p>
-        <div className={" grid grid-cols-12 gap-x-2"}>
-          <input
-            type="text"
-            placeholder={"add using a link"}
-            className={"py-1 px-2 col-span-9 border rounded-2xl"}
-          />
-          <button
-            className={
-              "bg-gray-200 hover:bg-gray-300 active:bg-gray-400 grow px-4 rounded-2xl col-span-2 py-2"
-            }
-          >
-            Add photo
-          </button>
-        </div>
-        <div className={"grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6"}>
-          <button
-            className={
-              "border bg-transparent rounded-2xl p-8 text-2xl text-gray-600 flex justify-center items-center"
-            }
-          >
-            <div className={"h-8 w-8"}>
-              <Upload />
-            </div>
+  const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("");
+  const [photoLink, setPhotoLink] = useState("");
+  const [photoName, setPhotoName] = useState([]);
+  const [description, setDescription] = useState("");
+  const [perks, setPerks] = useState([]);
+  const [extraInfo, setExtraInfo] = useState("");
+  const [checkIn, setCheckIn] = useState();
+  const [checkOut, setCheckOut] = useState();
+  const [maxMembers, setMaxMembers] = useState();
+  const [key, setKey] = useState(Date.now());
+  const [redirect, setRedirect] = useState(null);
+  const [price, setPrice] = useState(0);
+  const { id } = useParams();
 
-            <span>Upload</span>
-          </button>
+  useEffect(() => {
+    setRedirect(null);
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch("http://localhost:5001/place/" + id);
+    const response = await data.json();
+    setTitle(response.title);
+    setAddress(response.address);
+    setCheckIn(response.checkIn);
+    setCheckOut(response.checkOut);
+    setPerks(response.perks);
+    setDescription(response.description);
+    setExtraInfo(response.extraInfo);
+    setPhotoName(response.photos);
+    setMaxMembers(response.maxGuest);
+    setPrice(response.price);
+  };
+
+  useEffect(() => {
+    if (id) {
+      console.log(id);
+      fetchData();
+    }
+  }, [id]);
+
+  const handleChange = (e, setFunc) => {
+    setFunc(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const sendData = {
+      title,
+      address,
+      photoName,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxMembers,
+      price,
+    };
+    const data = await fetch("http://localhost:5001/place", {
+      method: "POST",
+      body: JSON.stringify(sendData),
+      headers: { "content-type": "application/json" },
+      credentials: "include",
+    });
+
+    console.log(await data.json());
+    setRedirect("abcd");
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    const files = e.target.files;
+    const photos = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      photos.append("photos", files[i]);
+    }
+    const data = await fetch("http://localhost:5001/uploads/device", {
+      method: "POST",
+      body: photos,
+      credentials: "include",
+    });
+    const fileName = await data.json();
+    setPhotoName((prev) => [...prev, fileName]);
+    setKey(Date.now());
+  };
+
+  const addPhotosByLink = async (e) => {
+    e.preventDefault();
+    const data = await fetch("http://localhost:5001/uploads/", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ link: photoLink }),
+      credentials: "include",
+    });
+    const fileName = await data.json();
+    setPhotoName((prev) => [...prev, fileName]);
+    setPhotoLink("");
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    console.log("handle edit");
+    const sendData = {
+      id,
+      title,
+      address,
+      photoName,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxMembers,
+      price,
+    };
+    const data = await fetch("http://localhost:5001/place", {
+      method: "PUT",
+      body: JSON.stringify(sendData),
+      headers: { "content-type": "application/json" },
+      credentials: "include",
+    });
+
+    console.log(await data.json());
+    setRedirect("abcd");
+  };
+
+  if (redirect) {
+    return <Navigate to={"/account/place"} />;
+  }
+
+  return (
+    <>
+      {id && <Nav edit={true} />}
+      <form
+        className={"w-full flex space-y-8 flex-col my-4"}
+        onSubmit={id ? handleEdit : handleSubmit}
+      >
+        <div className={"py-2 px-2 w-full gap-y-4 flex flex-col "}>
+          <span className={"font-bold text-xl"}>Title</span>
+          <p className={"text-gray-500"}>Make the title catchyy</p>
+          <input
+            value={title}
+            onChange={(e) => handleChange(e, setTitle)}
+            type="text"
+            className={"py-2 px-2 rounded-full border"}
+            placeholder={"Enter name here"}
+          />
         </div>
-      </div>
-      <div className={"grid  gap-y-4"}>
-        <h1 className={"font-bold text-xl"}>Description</h1>
-        <p className={"text-gray-500"}>description of the place</p>
-        <textarea className={"w-full py-2 px-3 rounded-2xl border"} />
-      </div>
-      <div className={"flex flex-col gap-y-2"}>
-        <h1 className={"font-bold text-xl"}>Perks</h1>
-        <p className={"text-gray-500"}>Select all perks</p>
-        <div className={"grid grid-cols-2 gap-y-4 md:grid-cols-3 "}>
-          <label className={"flex gap-x-2"}>
-            <Wifi />
-            <input type="checkbox" />
-            <span>Wifi</span>
-          </label>
-          <label className={"flex gap-x-2"}>
-            <Truck />
-            <input type="checkbox" />
-            <span>Free Parking</span>
-          </label>
-          <label className={"flex gap-x-2"}>
-            <Tv />
-            <input type="checkbox" />
-            <span>TV</span>
-          </label>
-          <label className={"flex gap-x-2"}>
-            <Pets />
-            <input type="checkbox" />
-            <span>Pets</span>
-          </label>
-          <label className={"flex gap-x-2"}>
-            <Search />
-            <input type="checkbox" />
-            <span>Private Entrance</span>
-          </label>
+        <div className={"py-2 px-2 w-full flex flex-col gap-y-4"}>
+          <span className={"font-bold text-xl"}>Address</span>
+          <p className={"text-gray-500"}>Address to the place</p>
+          <input
+            value={address}
+            onChange={(e) => handleChange(e, setAddress)}
+            type="text"
+            className={"py-2 px-2 rounded-full border"}
+            placeholder={"Enter address here"}
+          />
         </div>
-      </div>
-      <div>
-        <h2 className={"font-bold text-xl"}>Extra Info </h2>
-        <p className={"text-gray-500"}>House rules and what nots</p>
-        <textarea className={"w-full py-2 px-3 rounded-2xl border"} />
-      </div>
-    </form>
+        <div className={"grid  gap-y-4"}>
+          <h1 className={"font-bold text-xl"}>Description</h1>
+          <p className={"text-gray-500"}>description of the place</p>
+          <textarea
+            className={"w-full py-2 px-3 rounded-2xl border"}
+            value={description}
+            onChange={(e) => handleChange(e, setDescription)}
+          />
+        </div>
+        <AddPhoto
+          key={key}
+          value={photoLink}
+          onChange={(e) => handleChange(e, setPhotoLink)}
+          onClick={(e) => addPhotosByLink(e)}
+          photoName={photoName}
+          onChange1={(e) => handleUpload(e)}
+        />
+
+        <Perks perks={perks} setPerks={setPerks} />
+        <div>
+          <h2 className={"font-bold text-xl"}>Extra Info </h2>
+          <p className={"text-gray-500"}>House rules and what nots</p>
+          <textarea
+            className={"w-full py-2 px-3 rounded-2xl border"}
+            value={extraInfo}
+            onChange={(e) => handleChange(e, setExtraInfo)}
+          />
+        </div>
+        <div className={"flex flex-col gap-y-2"}>
+          <h2 className={"font-bold text-xl"}>Check-in and Check-out </h2>
+          <p className={"text-gray-500"}>
+            Remember to have some time window to clean
+          </p>
+          <div className={"flex gap-x-7"}>
+            <div className={"flex flex-col gap-y-2"}>
+              <h4 className={"font-bold"}>check-in</h4>
+              <input
+                className={"border-2 rounded-2xl py-1 px-2"}
+                value={checkIn}
+                onChange={(e) => handleChange(e, setCheckIn)}
+                type="time"
+                name="checkin"
+                id="checkin"
+              />
+            </div>
+            <div className={"flex flex-col gap-y-2"}>
+              <h4 className={"font-bold"}>check-out</h4>
+              <input
+                className={"border-2 rounded-2xl py-1 px-2"}
+                value={checkOut}
+                onChange={(e) => handleChange(e, setCheckOut)}
+                type="time"
+                name="checkout"
+                id="checkout"
+              />
+            </div>
+            <div className={"flex flex-col gap-y-2"}>
+              <h4 className={"font-bold"}>Max People</h4>
+              <input
+                type="number"
+                className={"border-2 rounded-2xl py-1 px-2"}
+                value={maxMembers}
+                onChange={(e) => handleChange(e, setMaxMembers)}
+                min={0}
+                defaultValue={5}
+              />
+            </div>
+            <div className={"flex flex-col gap-y-2"}>
+              <h4 className={"font-bold"}>Price per night</h4>
+              <input
+                type="number"
+                className={"border-2 rounded-2xl py-1 px-2"}
+                value={price}
+                onChange={(e) => handleChange(e, setPrice)}
+                min={0}
+              />
+            </div>
+          </div>
+        </div>
+        <button
+          className={
+            "bg-primary hover:bg-[#F12249FF] duration-150 active:bg-[#F30D38FF] py-2 rounded-full text-white"
+          }
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </>
   );
 }
 

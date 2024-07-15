@@ -18,13 +18,15 @@ function Profile() {
 
   return (
     <div className={"text-center max-w-lg mx-auto my-14 flex flex-col gap-y-4"}>
-      <div className={"flex justify-between "}>
-        <span className={"font-bold"}>Account name</span>
-        <span className={"font-semibold"}>{userName}</span>
+      <div className={"grid grid-cols-4 "}>
+        <span className={"font-bold col-span-2  text-start"}>Account name</span>
+        <span className={"font-semibold col-span-2  text-start"}>
+          {userName}
+        </span>
       </div>
-      <div className={"flex justify-between"}>
-        <span className={"font-bold"}>Email</span>
-        <span className={"font-semibold"}>{email}</span>
+      <div className={"grid grid-cols-4 "}>
+        <span className={"font-bold col-span-2 text-start"}>Email</span>
+        <span className={"font-semibold  text-start"}>{email}</span>
       </div>
       <div>
         <button

@@ -17,6 +17,7 @@ exports.index = async (req, res) => {
 exports.logout = (req, res) => {
   console.log("hits");
   if (req.cookies.token) {
+    console.log("yes");
     res.clearCookie("token").json({ status: "ok" });
   }
 };
