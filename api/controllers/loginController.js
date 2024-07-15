@@ -19,7 +19,9 @@ exports.index = async (req, res) => {
         (err, token) => {
           if (err) throw err;
           res
-            .cookie("token", token)
+            .cookie("token", token, {
+              sameSite: "none",
+            })
             .json({ name: dbUser.name, email: email, id: dbUser._id });
         },
       );
